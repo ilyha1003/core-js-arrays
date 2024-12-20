@@ -127,104 +127,38 @@ function getIndicesOfOddNumbers(numbers) {
     .map((val) => numbers.indexOf(val));
 }
 
-/**
- * Returns the array of RGB Hex strings from the specified array of numbers.
- *
- * @param {array} arr - The input array.
- * @return {array} - The array of RGB Hex strings.
- *
- * @example
- *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
- *    getHexRGBValues([]) => []
- */
 function getHexRGBValues(arr) {
   return arr.map(
     (val) => `#${val.toString(16).padStart(6, '0').toUpperCase()}`
   );
 }
 
-/**
- * Returns the n largest values from the specified array
- *
- * @param {array} arr - The input array
- * @param {number} n - Number of maximum values.
- * @return {array} - n largest values.
- *
- * @example
- *   getMaxItems([], 5) => []
- *   getMaxItems([ 1, 2 ], 1) => [ 2]
- *   getMaxItems([ 2, 3, 1 ], 2) => [ 3, 2]
- *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
- *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
- */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  return arr
+    .sort((a, b) => a - b)
+    .reverse()
+    .slice(0, n);
 }
 
-/**
- * Finds and returns an array containing only the common elements found in two arrays.
- *
- * @param {array} arr1 - The first array.
- * @param {array} arr2 - The second array.
- * @return {array} - An array containing common elements.
- *
- * @example
- *    findCommonElements([1, 2, 3], [2, 3, 4]) => [ 2, 3 ]
- *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
- *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
- */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  return arr1.filter((el) => arr2.includes(el));
 }
 
-/**
- * Finds the length of the longest increasing subsequence of a given array of integers.
- *
- * @param {array} nums - The array of integers.
- * @return {number} - The length of the longest increasing subsequence.
- *
- * @example
- *    findLongestIncreasingSubsequence([10, 22, 9, 33, 21, 50, 41, 60, 80]) => 3
- *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
- *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
- */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let count = 1;
+  return nums.reduce((acc, el, index) => {
+    if (index > 0 && el > nums[index - 1]) count += 1;
+    else count = 1;
+    return Math.max(acc, count);
+  }, 1);
 }
 
-/**
- * Propagates every item in sequence its position times
- * Returns an array that consists of: one first item, two second items, three third items etc.
- *
- * @param {array} arr - The input array
- * @return {array}
- *
- * @example :
- *  propagateItemsByPositionIndex([]) => []
- *  propagateItemsByPositionIndex([ 1 ]) => [ 1 ]
- *  propagateItemsByPositionIndex([ 'a', 'b' ]) => [ 'a', 'b','b' ]
- *  propagateItemsByPositionIndex([ 'a', 'b', 'c', null ]) => [ 'a', 'b', 'b', 'c', 'c', 'c',  null, null, null, null ]
- *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
- */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.flatMap((el, index) => new Array(index + 1).fill(el));
 }
 
-/**
- * Shifts an array by n positions. If n is negative, the array is shifted to the left;
- * if positive, it is shifted to the right.
- *
- * @param {array} arr - The array to be shifted.
- * @param {number} n - The number of positions to shift the array elements.
- * @return {array} - The shifted array.
- *
- * @example
- *    shiftArray([1, 2, 3, 4, 5], 2) => [4, 5, 1, 2, 3]
- *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
- *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
- */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  return [...arr.slice(-n), ...arr.slice(0, -n)];
 }
 
 /**
@@ -240,31 +174,29 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const digitObject = {
+    zero: 0,
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+  };
+
+  return arr.sort((a, b) => digitObject[a] - digitObject[b]);
 }
 
-/**
- * Swaps the head and tail of the specified array:
- * the head (first half) of array move to the end, the tail (last half) move to the start.
- * The middle element (if exists) leave on the same position. *
- *
- * @param {array} arr - The input array.
- * @return {array} - The swapped array.
- *
- * @example
- *   [ 1, 2, 3, 4, 5 ]   =>  [ 4, 5, 3, 1, 2 ]
- *    \----/   \----/
- *     head     tail
- *
- *   swapHeadAndTail([ 1, 2 ]) => [ 2, 1 ]
- *   swapHeadAndTail([ 1, 2, 3, 4, 5, 6, 7, 8 ]) =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
- *   swapHeadAndTail([ 1 ]) => [ 1 ]
- *   swapHeadAndTail([]) => []
- *
- */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const midPoint = Math.floor(arr.length / 2);
+  const head = arr.splice(0, midPoint);
+  const tail = arr.splice(-midPoint);
+
+  return [...tail, ...arr, ...head];
 }
 
 module.exports = {
